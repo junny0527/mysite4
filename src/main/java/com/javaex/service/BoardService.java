@@ -10,6 +10,7 @@ import com.javaex.vo.BoardVo;
 
 @Service
 public class BoardService {
+	
 	@Autowired
 	private BoardDao boardDao;
 
@@ -32,9 +33,11 @@ public class BoardService {
 	}
 
 	// 한명 가져오기
-	public BoardVo getBoard(int no) {
+	public BoardVo getBoard(boolean up,int no) {
 		System.out.println("BoardService > getBoard");
+		if (up) {
 		boardDao.hitUpdate(no);
+		}
 		BoardVo bVo = boardDao.getBoard(no);
 		return bVo;
 	}

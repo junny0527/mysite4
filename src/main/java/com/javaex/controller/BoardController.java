@@ -59,7 +59,7 @@ public class BoardController {
 		public String read(@RequestParam("no") int no ,Model model) {
 			System.out.println("BoardController > read");
 			
-			BoardVo boardVo = boardService.getBoard(no);
+			BoardVo boardVo = boardService.getBoard(true,no);
 			
 			System.out.println(boardVo);
 			model.addAttribute("boardVo" , boardVo);
@@ -72,7 +72,7 @@ public class BoardController {
 		public String modifyForm(@RequestParam("no") int no ,Model model) {
 			System.out.println("BoardController > modifyForm");
 			
-			BoardVo boardVo = boardService.getBoard(no);
+			BoardVo boardVo = boardService.getBoard(false,no);
 			System.out.println(boardVo);
 			
 			model.addAttribute("boardVo", boardVo);
