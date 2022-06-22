@@ -37,7 +37,10 @@ public class UserController {
 		System.out.println("UserController>modify()");
 
 		userService.modify(userVo);
-		session.setAttribute("authUser", userVo);
+		
+		UserVo authUser = new UserVo(userVo.getNo(),userVo.getName()); 
+		
+		session.setAttribute("authUser", authUser);
 
 		return "redirect:/main";
 

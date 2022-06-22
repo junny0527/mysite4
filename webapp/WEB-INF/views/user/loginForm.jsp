@@ -6,9 +6,9 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link href="/mysite4/assets/css/mysite.css" rel="stylesheet"
+<link href="${pageContext.request.contextPath}/assets/css/mysite.css" rel="stylesheet"
 	type="text/css">
-<link href="/mysite4/assets/css/user.css" rel="stylesheet"
+<link href="${pageContext.request.contextPath}/assets/css/user.css" rel="stylesheet"
 	type="text/css">
 
 </head>
@@ -21,9 +21,9 @@
 		<div id="nav">
 			<ul class="clearfix">
 				<li><a href="">입사지원서</a></li>
-				<li><a href="">게시판</a></li>
+				<li><a href="/mysite4/board/list">게시판</a></li>
 				<li><a href="">갤러리</a></li>
-				<li><a href="">방명록</a></li>
+				<li><a href="/mysite4/guest/addlist">방명록</a></li>
 			</ul>
 		</div>
 		<!-- //nav -->
@@ -70,7 +70,7 @@
 						<div class="button-area">
 							<button type="submit" id="btn-submit">로그인</button>
 						</div>
-						<input type="hidden" name="action" value="login">
+						
 					</form>
 				</div>
 				<!-- //loginForm -->

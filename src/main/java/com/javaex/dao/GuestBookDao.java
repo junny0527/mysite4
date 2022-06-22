@@ -24,21 +24,22 @@ public class GuestBookDao {
 	public int guestBookInsert(GuestBookVo guestBookVo) {
 		System.out.println("GuestBookDao > guestBookInsert()");
 
-		int count = sqlSession.insert("guestBook.guestBookInsert", guestBookVo);
+		int count = sqlSession.insert("guestbook.guestBookInsert", guestBookVo);
 
 		return count;
 	}
 
-	public int guestBookDelete(int no) {
+	public int guestBookDelete(GuestBookVo guestBookVo) {
 		System.out.println("GuestBookDao > guestBookDelete()");
 
-		int count = sqlSession.delete("guestBook.guestBookDelete", no);
-
-		return count;
+		 int count =sqlSession.delete("guestbook.guestBookDelete", guestBookVo);
+		 
+		 return count;
+		
 	}
 	public GuestBookVo getGuestBookList(int no) {
 		System.out.println("GuestBookDao > getPerson()");
-		GuestBookVo getbookList = sqlSession.selectOne("guestBook.getGuestBookList",no);
+		GuestBookVo getbookList = sqlSession.selectOne("guestbook.getguestBookList",no);
 		System.out.println(getbookList);
 
 		return getbookList;
@@ -46,7 +47,7 @@ public class GuestBookDao {
 	public int guestBookUpdate(GuestBookVo guestBookVo) {
 		System.out.println("GuestBookDao > guestBookUpdate()");
 
-		int count = sqlSession.update("guestBook.guestBookUpdate", guestBookVo);
+		int count = sqlSession.update("guestbook.guestBookUpdate", guestBookVo);
 
 		return count;
 	}

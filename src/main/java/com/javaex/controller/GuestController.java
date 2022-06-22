@@ -48,29 +48,27 @@ public class GuestController {
 		System.out.println(count);
 
 		// 리스트로 리다이텍트 시킬 예정
-		return "redirect:/addlist";
+		return "redirect:/guest/addlist";
 	}
 
 	// 삭제
 	@RequestMapping(value = "/delete", method = { RequestMethod.GET, RequestMethod.POST })
-	public String delete(@RequestParam("no") int no) {
+	public String delete(@ModelAttribute GuestBookVo guestBookVo ) {
 		System.out.println("GuestController > delete()");
 
 		
-		 guestService.guestBookDelete(no);
+		 guestService.guestBookDelete(guestBookVo);
 		
 
-		return "redirect:/addlist";
+		return "redirect:/guest/addlist";
 	}
 
 	@RequestMapping(value = "/deleteForm", method = { RequestMethod.GET, RequestMethod.POST })
 	public String updateForm(Model model,@RequestParam("no") int no ) {
 		System.out.println("GuestController > updateForm()");
-		//GuestBookDao guestbookDao = new GuestBookDao();
-		GuestBookVo guestbookVo = guestService.getGuest(no);
 
 		// ds 데이터보내기 ==> request attribute에 넣는다.
-		model.addAttribute("guestbookVo", guestbookVo);
+		model.addAttribute("no", no);
 		return "guestbook/deleteForm";
 	}
 }

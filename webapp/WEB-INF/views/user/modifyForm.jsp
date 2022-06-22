@@ -7,9 +7,9 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link href="/mysite4/assets/css/mysite.css" rel="stylesheet"
+<link href="${pageContext.request.contextPath}/assets/css/mysite.css" rel="stylesheet"
 	type="text/css">
-<link href="/mysite4/assets/css/user.css" rel="stylesheet"
+<link href="${pageContext.request.contextPath}/assets/css/user.css" rel="stylesheet"
 	type="text/css">
 
 </head>
@@ -22,9 +22,9 @@
 		<div id="nav">
 			<ul class="clearfix">
 				<li><a href="">입사지원서</a></li>
-				<li><a href="">게시판</a></li>
+				<li><a href="/mysite4/board/list">게시판</a></li>
 				<li><a href="">갤러리</a></li>
-				<li><a href="">방명록</a></li>
+				<li><a href="/mysite4/guest/addlist">방명록</a></li>
 			</ul>
 		</div>
 		<!-- //nav -->
@@ -50,7 +50,10 @@
 			<div id="user">
 				<div id="modifyForm">
 					<form action="/mysite4/user/modify" method="get">
-
+						
+						<div class="form-group">
+							 <input type="hidden"name="no" value="${authUser.no}">
+						</div>
 						<!-- 아이디 -->
 						<div class="form-group">
 							<label class="form-text" for="input-uid">아이디</label> <span
@@ -62,21 +65,21 @@
 						<div class="form-group">
 							<label class="form-text" for="input-pass">패스워드</label> <input
 								type="text" id="input-pass" name="password"
-								value="${user.password}" placeholder="비밀번호를 입력하세요">
+								value="${userVo.password}" placeholder="비밀번호를 입력하세요">
 						</div>
 
 						<!-- 이메일 -->
 						<div class="form-group">
 							<label class="form-text" for="input-name">이름</label> <input
-								type="text" id="input-name" name="name" value="${user.name}"
+								type="text" id="input-name" name="name" value="${userVo.name}"
 								placeholder="이름을 입력하세요">
 						</div>
 
 						<!-- //나이 -->
 						<div class="form-group">
-							<span class="form-text">성별</span>
+							<span class="form-text" >성별</span>
 							<c:choose>
-								<c:when test="${user.gender == male}">
+								<c:when test="${userVo.gender == 'male'}">
 									<label for="rdo-male">남</label>
 									<input type="radio" id="rdo-male" name="gender" value="male"
 										checked="checked">
@@ -97,7 +100,7 @@
 						<div class="button-area">
 							<button type="submit" id="btn-submit">회원정보수정</button>
 						</div>
-						<input type="hidden" name="action" value="modify">
+						
 					</form>
 
 

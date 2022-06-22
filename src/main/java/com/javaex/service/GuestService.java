@@ -23,9 +23,10 @@ public class GuestService {
 		return guestbookDao.guestBookInsert(guestbookVo);
 
 	}
-	public int guestBookDelete(int no) {
+	public int guestBookDelete(GuestBookVo guestBookVo) {
 		
-		return guestbookDao.guestBookDelete(no);
+	int count = guestbookDao.guestBookDelete(guestBookVo);
+	return count;
 		
 	}
 	public GuestBookVo getGuest(int no) {

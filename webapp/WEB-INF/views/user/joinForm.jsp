@@ -7,9 +7,9 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link href="/mysite4/assets/css/mysite.css" rel="stylesheet"
+<link href="${pageContext.request.contextPath}/assets/css/mysite.css" rel="stylesheet"
 	type="text/css">
-<link href="/mysite4/assets/css/user.css" rel="stylesheet"
+<link href="${pageContext.request.contextPath}/assets/css/user.css" rel="stylesheet"
 	type="text/css">
 
 </head>
@@ -22,9 +22,9 @@
 		<div id="nav" class="clearfix">
 			<ul>
 				<li><a href="">입사지원서</a></li>
-				<li><a href="/mysite2/board">게시판</a></li>
+				<li><a href="/mysite4/board/list">게시판</a></li>
 				<li><a href="">갤러리</a></li>
-				<li><a href="/mysite2/guestbook">방명록</a></li>
+				<li><a href="/mysite4/guest/addlist">방명록</a></li>
 			</ul>
 			<div class="clear"></div>
 		</div>
@@ -50,7 +50,7 @@
 
 			<div id="user">
 				<div id="joinForm">
-					<form action="/mysite4/user/joinOk" method="get">
+					<form action="/mysite4/user/join" method="get">
 
 						<!-- 아이디 -->
 						<div class="form-group">
@@ -95,8 +95,6 @@
 						<div class="button-area">
 							<button type="submit" id="btn-submit">회원가입</button>
 						</div>
-
-						<input type="hidden" name="action" value="join">
 					</form>
 				</div>
 				<!-- //joinForm -->
