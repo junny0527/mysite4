@@ -94,23 +94,15 @@ public class BoardController {
 			boardService.delete(no);
 			return "redirect:/board/list";
 		}
-		//검색
-				@RequestMapping(value="/search" ,method= {RequestMethod.GET,RequestMethod.POST})
-				public String search(String word, Model model) {
-					System.out.println("BoardController > search");
-					
-					if(word == null) {
-						word = "";
-					}
-					
-					word = "%" + word + "%";
-					
-					List<BoardVo> boardList = boardService.listSearch(word);
-					System.out.println(boardList);
-					
-					model.addAttribute("boardList", boardList);
-					
-					
-					return "board/list";
-				}
+		//리스트 불러오기 (검색기능 +)
+		   @RequestMapping(value="/search", method = {RequestMethod.GET, RequestMethod.POST})
+		   public String list(Model model, @RequestParam(value = "keyword", defaultValue = "", required = false) String word) {
+		      System.out.println("BoardController > list");
+		      
+		      List<BoardVo> bList = boardService.listSearch(word);
+		      model.addAttribute("bList",bList);
+		      return "board/list";
+		   }
+		   
+		
 }

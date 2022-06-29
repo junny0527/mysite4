@@ -72,7 +72,7 @@
 			        ,b.user_no userNo
 			from board b , users u
 			where b.user_no = u.no
-			and (title like #{title} or name like #{name})
+			and (title like  #{'%'+word+'%'} or name like #{'%'+word+'%'})
 			order by no desc
 		]]>
 	</select>

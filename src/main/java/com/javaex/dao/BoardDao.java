@@ -63,9 +63,9 @@ public class BoardDao {
 	}
 
 	// 검색기능
-	public List<BoardVo> listSearch(String title) {
+	public List<BoardVo> listSearch(String word) {
 		System.out.println("boardDao > listSearch");
-		List<BoardVo> boardList = sqlSession.selectList("board.boardSearch", title);
+		List<BoardVo> boardList = sqlSession.selectList("board.boardSearch", word);
 
 		return boardList;
 	}

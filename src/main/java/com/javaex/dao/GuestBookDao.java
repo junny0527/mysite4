@@ -28,6 +28,22 @@ public class GuestBookDao {
 
 		return count;
 	}
+	public int insertguest(GuestBookVo guestBookVo) {
+		System.out.println("GuestBookDao > insertguest()");
+		System.out.println(guestBookVo);
+		int count = sqlSession.insert("guestbook.insertSelectKey", guestBookVo);
+
+		return count;
+	}
+	public GuestBookVo getGuest(int no) {
+		System.out.println("GuestbookDao>getGuest()");
+		
+		GuestBookVo guestbookVo = sqlSession.selectOne("guestbook.getGuest", no);
+		
+		return guestbookVo;
+	}
+	
+
 
 	public int guestBookDelete(GuestBookVo guestBookVo) {
 		System.out.println("GuestBookDao > guestBookDelete()");
@@ -38,7 +54,7 @@ public class GuestBookDao {
 		
 	}
 	public GuestBookVo getGuestBookList(int no) {
-		System.out.println("GuestBookDao > getPerson()");
+		System.out.println("GuestBookDao > getGuestBookList()");
 		GuestBookVo getbookList = sqlSession.selectOne("guestbook.getguestBookList",no);
 		System.out.println(getbookList);
 

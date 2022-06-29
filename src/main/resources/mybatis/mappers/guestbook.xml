@@ -22,6 +22,29 @@
 		]]>
 	</select>
 
+	<!-- 방명록 저장(ajax) -->
+	<insert id="insertSelectKey" parameterType="GuestBookVo">
+		<selectKey keyProperty="no" resultType="int" order="BEFORE">
+			select seq_guestbook_no.nextval from dual
+		</selectKey>
+      <![CDATA[
+        insert into guestbook 
+		VALUES (seq_guestbook_no.nextval,#{name},#{password},#{content},sysdate)
+      ]]>
+	</insert>
+	<select id="getGuest" resultMap="resultMapGuestBookVo"
+		parameterType="int">
+		<![CDATA[
+			select  	no ,
+				        name, 
+				        password,
+				        content, 
+				        reg_date 
+				from guestbook
+				where no = #{no}  
+		]]>
+	</select>
+
 	<insert id="guestBookInsert" parameterType="GuestBookVo">
 		<![CDATA[
 			insert into guestbook 
