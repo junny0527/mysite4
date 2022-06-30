@@ -12,10 +12,14 @@
 	rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/assets/css/guestbook.css"
 	rel="stylesheet" type="text/css">
-
+<link
+	href="${pageContext.request.contextPath}/assets/bootstrap/css/bootstrap.css"
+	rel="stylesheet" type="text/css">
 <!-- js -->
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/assets/js/jquery/jquery-1.12.4.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/assets/bootstrap/js/bootstrap.js"></script>
 </head>
 
 <body>
@@ -25,15 +29,7 @@
 		<c:import url="/WEB-INF/views/includes/header.jsp"></c:import>
 		<!-- //header -->
 
-		<div id="nav" class="clearfix">
-			<ul>
-				<li><a href="">입사지원서</a></li>
-				<li><a href="/mysite4/board/list">게시판</a></li>
-				<li><a href="">갤러리</a></li>
-				<li><a href="/mysite4/guest/addlist">방명록</a></li>
-			</ul>
-			<div class="clear"></div>
-		</div>
+		
 		<!-- //nav -->
 
 		<c:import url="/WEB-INF/views/includes/asideGuest.jsp"></c:import>
@@ -54,8 +50,7 @@
 			<!-- //content-head -->
 
 			<div id="guestbook">
-				<form action="${pageContext.request.contextPath}/api/guestbook/add"
-					method=get>
+				
 					<table id="guestAdd">
 						<colgroup>
 							<col style="width: 70px;">
@@ -84,8 +79,9 @@
 					</table>
 					<!-- //guestWrite -->
 
+				
 
-				</form>
+				<button id="btnTest" class="btn btn-primary">모달창</button>
 				<div id="listArea"></div>
 
 			</div>
@@ -101,52 +97,155 @@
 	</div>
 	<!-- //wrap -->
 
+
+	<!-- 삭제 모달창 -------------------------------------->
+	<div id="delModal" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">비밀번호 입력 모달창</h4>
+				</div>
+				<div class="modal-body">
+					비밀번호: <input id="modalPassword" type="password" name="password" value=""> <br> 
+					<input id="modalNo" type="text" name="no" value="">
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+					<button id="btnModalDel" type="button" class="btn btn-danger">삭제</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->
+	<!-- 삭제 모달창 -------------------------------------->
+
+
+
+
 </body>
 <script type="text/javascript">
 	/* 준비가 끝나면 */
 	$(document).ready(function() {
 		/* 리스트 요청+그리기 */
-		fetchList()
+		fetchList();
 	});
-	/* 저장버튼을 클릭했을때 */
-	$("#btnSubmit").on("click", function() {
-		console.log("저장버튼 클릭");
+	
+	/* 저장버튼을 클릭했을때 Json*/
+	$("#btnSubmit").on("click",function(){
+	console.log("저장버튼 클릭");
 
-		//데이터수집
-		var name = $("[name='name']").val();
-		var password = $("[name='password']").val();
-		var content = $("[name=content]").val();
+	   //데이터 수집
+	   var name = $("[name='name']").val();
+	   var password = $("[name='password']").val();
+	   var content = $("[name='content']").val();
+	   
+	   //데이터를 담아줌
+	   var guestbookVo = {
+	      name : name,
+	      password:password,
+	      content:content
+	   };
+	   
+	   console.log(guestbookVo);
+	   $.ajax({
+	      
+	      url : "${pageContext.request.contextPath}/api/guestbook/add2",      
+	      type : "post",
+	      contentType : "application/json",
+	      data : JSON.stringify(guestbookVo), // 외우기
+	      
+	      dataType : "json",
+	      success : function(gVo){
+	         
+	         //1개데이터 추가 그리기
+	         render(gVo,"up");
+	         
+	         $("[name='name']").val("");
+	         $("[name='password']").val("");
+	         $("[name='content']").val("");
+	         
+	      },
+	      error : function(XHR, status, error) {
+	         console.error(status + " : " + error);
+	      }
+	   });
+	});  
+	//삭제 버튼 눌렀을때
+	$("#listArea").on("click", ".delbtn", function() {
+		console.log("삭제버튼 클릭");
+		//데이터 수집
+		var $this = $(this);
+		var no = $this.data("no");
 
-		//데이터 객체로 묶기
-		var guestVo = {
-			name : name,
-			password : password,
-			content : content
-		};
+		console.log($this);
+		//초기화
+		$('#delModal [name="password"]').val("");
+		$('[name="no"]').val(no);
 
-		$.ajax({
-
-			/* url : "${pageContext.request.contextPath }/api/guestbook/add?name="+name+"&password="+password+"&content="+content,	 */
-			url : "${pageContext.request.contextPath }/api/guestbook/add",
-			type : "post",
-			//contentType : "application/json",
-			data : guestVo, //파라미터 정리된다
-			dataType : "json",
-			success : function(gVo) {
-				/* 1개데이터 리스트 추가(그리기)하기 */
-				render(gVo, "up");
-
-				/* 입력폼 초기화 */
-				$("[name='name']").val("");
-				$("[name='password']").val("");
-				$("[name='content']").val("");
-
-			},
-			error : function(XHR, status, error) {
-				console.error(status + " : " + error);
+		//팝업창
+		$('#delModal').modal('show');
+		
+	});
+	/* 모달창의 삭제버튼 */
+	/* 모달창 삭제버튼 클릭할때 */
+$("#btnModalDel").on("click", function(){
+	console.log("모달창 삭제버튼 클릭");
+	
+	//데이터 모으기
+	var password = $('#delModal [name="password"]').val();
+	var no = $('[name="no"]').val();
+	
+	var guestbookVo = {
+		password: password,
+		no: no
+	};
+	
+	/*
+	var guestbookVo = {};
+	guestbookVo.password = password;
+	guestbookVo.no = no;
+	*/
+	
+	console.log(guestbookVo)
+	//서버로 데이터 전송
+	$.ajax({
+		
+		url : "${pageContext.request.contextPath }/api/guestbook/remove",		
+		type : "post",
+		//contentType : "application/json",
+		data : guestbookVo,
+		dataType : "json",
+		success : function(result){
+			/*성공시 처리해야될 코드 작성*/
+			console.log(result);
+			
+			//성공이면 지우고
+			if(result == "succeess"){
+				$("#t"+no).remove();
+				$("#delModal").modal("hide");
+			
+			}else {
+				alert("비밀번호를 확인하세요");
+				$("#delModal").modal("hide");
 			}
-		});
+			
+		},
+		error : function(XHR, status, error) {
+			console.error(status + " : " + error);
+		}
 	});
+	//성공이면 리스트에서 제거하기
+	
+	//모달창 닫기
+	
+});
+
 	/* 리스트 요청 */
 	function fetchList() {
 		$.ajax({
@@ -167,13 +266,13 @@
 				console.error(status + " : " + error);
 			}
 		});
-	}
+	};
 	/* 리스트 그리기 1개씩*/
 	function render(guestbookVo, opt) {
 		console.log("render()");
 
 		var str = '';
-		str += '<table class="guestRead">';
+		str += '<table id="t'+guestbookVo.no+'" class="guestRead">';
 		str += '    <colgroup>';
 		str += '        <col style="width: 10%;">';
 		str += '        <col style="width: 40%;">';
@@ -184,11 +283,10 @@
 		str += '        <td>' + guestbookVo.no + '</td>';
 		str += '        <td>' + guestbookVo.name + '</td>';
 		str += '        <td>' + guestbookVo.regDate + '</td>';
-		str += '        <td><a href="">[삭제]</a></td>';
+		str += '        <td><button class="delbtn" type="button" data-no="'+ guestbookVo.no +'">삭제</button></td>';
 		str += '    </tr>';
 		str += '    <tr>';
-		str += '        <td colspan=4 class="text-left">' + guestbookVo.content
-				+ '</td>';
+		str += '         <td colspan=4 class="text-left">'+guestbookVo.content+'</td>';
 		str += '    </tr>';
 		str += '</table>';
 

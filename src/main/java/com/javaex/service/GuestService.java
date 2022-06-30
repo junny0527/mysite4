@@ -19,27 +19,43 @@ public class GuestService {
 		return guestList;
 	}
 
-	public int guestBookInsert(GuestBookVo guestbookVo) {
+	public int guestBookInsert(GuestBookVo guestBookVo) {
 		System.out.println("GuestBookService > guestBookInsert()");
-		return guestbookDao.guestBookInsert(guestbookVo);
+		return guestbookDao.guestBookInsert(guestBookVo);
 
 	}
 	//ajax용
-	public GuestBookVo addGuest(GuestBookVo guestbookVo) {
+	public GuestBookVo addGuest(GuestBookVo guestBookVo) {
 		System.out.println("GuestBookService > addGuest()");
 		//저장
-				System.out.println("전-->" + guestbookVo);
-				int count = guestbookDao.insertguest(guestbookVo);
-				System.out.println("후-->" + guestbookVo);
+				System.out.println("전-->" + guestBookVo);
+				guestbookDao.insertguest(guestBookVo);
+				System.out.println("후-->" + guestBookVo);
 				
-				int no =guestbookVo.getNo();
-				
+				int no =guestBookVo.getNo();
+				System.out.println(no);
 				//방금저장한 1개의 데이터를 가져온다
 				GuestBookVo gVo = guestbookDao.getGuest(no);
 				
 				return gVo;
 
 	}
+	//방명록 삭제
+		public String removeGuest(GuestBookVo guestBookVo) {
+			System.out.println("GuestBookService>removeGuest()");
+			
+			String state;
+			
+			int count = guestbookDao.guestDelete(guestBookVo);
+			
+			if(count>0) {
+				state = "succeess";
+			}else {
+				state = "fail";
+			}
+			
+			return state;
+		}
 	public int guestBookDelete(GuestBookVo guestBookVo) {
 		System.out.println("GuestBookService > guestBookDelete()");
 		int count = guestbookDao.guestBookDelete(guestBookVo);

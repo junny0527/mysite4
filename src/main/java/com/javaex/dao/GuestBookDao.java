@@ -35,13 +35,21 @@ public class GuestBookDao {
 
 		return count;
 	}
+	//ajax
 	public GuestBookVo getGuest(int no) {
 		System.out.println("GuestbookDao>getGuest()");
+		GuestBookVo bVo = sqlSession.selectOne("guestbook.getGuest", no);
+		System.out.println(bVo);
+		return bVo;
 		
-		GuestBookVo guestbookVo = sqlSession.selectOne("guestbook.getGuest", no);
-		
-		return guestbookVo;
 	}
+	//ajax방명록 삭제
+			public int guestDelete(GuestBookVo guestbookVo) {
+				System.out.println("GuestbookDao>guestDelete()");
+				System.out.println(guestbookVo);
+				return sqlSession.delete("guestbook.delete", guestbookVo);
+				
+			}
 	
 
 
@@ -67,5 +75,6 @@ public class GuestBookDao {
 
 		return count;
 	}
+	
 
 }
